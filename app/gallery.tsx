@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -21,6 +21,38 @@ const Gallery = ({ users }: GalleryProps) => {
   const [usersList, setUsersList] = useState(users);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sortData, setSortData] = useState({
+    field: "",
+    direction: "",
+  });
+
+  useEffect(() => {
+    // Direction
+    const sortOrder = sortData.direction === "descending" ? -1 : 1;
+
+    const sortFunction = (a, b) => {
+      const valueA =
+        sortData.field === "company"
+          ? a[sortData.field].name
+          : a[sortData.field];
+      const valueB =
+        sortData.field === "company"
+          ? b[sortData.field].name
+          : b[sortData.field];
+
+      if (valueA < valueB) {
+        return -1 * sortOrder;
+      }
+      if (valueA > valueB) {
+        return 1 * sortOrder;
+      }
+      return 0;
+    };
+
+    setUsersList((prev) => {
+      return prev.slice().sort(sortFunction);
+    });
+  }, [sortData]);
 
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
@@ -36,11 +68,26 @@ const Gallery = ({ users }: GalleryProps) => {
     setIsModalOpen(false);
   };
 
+  const sortingFieldHandler = (data: any) => {
+    setSortData((prev) => {
+      return { ...prev, field: data.value };
+    });
+  };
+
+  const sortingDirectionHandler = (data: any) => {
+    setSortData((prev) => {
+      return { ...prev, direction: data.value };
+    });
+  };
+
   return (
     <div className="user-gallery">
       <div className="heading">
         <h1 className="title">Users</h1>
-        <Controls />
+        <Controls
+          sortingField={sortingFieldHandler}
+          sortingDirection={sortingDirectionHandler}
+        />
       </div>
       <div className="items">
         {usersList.map((user, index) => (

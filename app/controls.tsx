@@ -1,6 +1,12 @@
+import { useState } from "react";
 import Select from "react-select";
 
-const Controls = () => {
+interface ControlsType {
+  sortingField: (sort: any) => void;
+  sortingDirection: (sort: any) => void;
+}
+
+const Controls = ({ sortingField, sortingDirection }: ControlsType) => {
   const fieldOptions = [
     { label: "Name", value: "name" },
     { label: "Company", value: "company" },
@@ -17,7 +23,12 @@ const Controls = () => {
         <label htmlFor="sort-field" className="label">
           Sort Field
         </label>
-        <Select options={fieldOptions} inputId="sort-field" className="input" />
+        <Select
+          options={fieldOptions}
+          inputId="sort-field"
+          className="input"
+          onChange={sortingField}
+        />
       </div>
       <div className="form-group group">
         <label htmlFor="sort-direction" className="label">
@@ -27,6 +38,7 @@ const Controls = () => {
           options={directionOptions}
           inputId="sort-direction"
           className="input"
+          onChange={sortingDirection}
         />
       </div>
     </div>
