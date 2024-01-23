@@ -11,6 +11,8 @@
 
   > .field {
     display: flex;
+    align-items: center;
+    margin-top: 2px;
   }
 
   > .field + .company {
@@ -36,6 +38,7 @@
   > .company > .name {
     font-size: 18px;
     font-weight: 600;
+    margin-top: 16px;
   }
 
   > .company > .catchphrase {
@@ -43,6 +46,10 @@
   }
 
   > .field > .icon + .value {
+    margin-left: 8px;
+  }
+
+  > .field > .icon + .data {
     margin-left: 8px;
   }
 }
