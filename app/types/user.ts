@@ -27,3 +27,7 @@ export type Geo = {
   lat: string;
   lng: string;
 };
+
+export type Photo = {
+  avatar: string;
+};

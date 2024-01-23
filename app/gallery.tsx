@@ -9,14 +9,17 @@ import {
   FaEnvelope,
 } from "react-icons/fa6";
 
+import Image from "next/image";
+
 import Modal from "./modal";
 
-import { User } from "./types/user";
+import { User, Photo } from "./types/user";
 
 export type GalleryProps = {
   users: User[];
+  photos: Photo[];
 };
-const Gallery = ({ users }: GalleryProps) => {
+const Gallery = ({ users, photos }: GalleryProps) => {
   const [usersList, setUsersList] = useState(users);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +27,7 @@ const Gallery = ({ users }: GalleryProps) => {
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
 
-    if(user) {
+    if (user) {
       setSelectedUser(user);
       setIsModalOpen(true);
     }
@@ -46,11 +49,13 @@ const Gallery = ({ users }: GalleryProps) => {
             onClick={() => handleModalOpen(user.id)}
           >
             <div className="body">
-              <Avatar
-                size={96}
-                name={user.name}
-                variant="marble"
-                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+              {/* // ADDS ON */}
+              <Image
+                src={photos[index].avatar}
+                alt="avatar"
+                width={96}
+                height={96}
+                className="avatar__users"
               />
             </div>
             <div className="info">
@@ -75,17 +80,12 @@ const Gallery = ({ users }: GalleryProps) => {
               {selectedUser && (
                 <div className="user-info info">
                   <div className="avatar">
-                    <Avatar
-                      size={240}
-                      name={selectedUser.name}
-                      variant="marble"
-                      colors={[
-                        "#92A1C6",
-                        "#146A7C",
-                        "#F0AB3D",
-                        "#C271B4",
-                        "#C20D90",
-                      ]}
+                    <Image
+                      src={photos[selectedUser.id - 1].avatar}
+                      alt="avatar"
+                      width={240}
+                      height={240}
+                      className="avatar__users"
                     />
                   </div>
                   <div className="name">
